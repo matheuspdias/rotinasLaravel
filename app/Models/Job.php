@@ -5,11 +5,12 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Job;
+use App\Models\User;
 
-class User extends Model
+class Job extends Model
 {
     use Notifiable, HasFactory, SoftDeletes;
     /**
@@ -17,18 +18,14 @@ class User extends Model
      *
      * @var array<int, string>
      */
-    protected $table = 'users';
+    protected $table = 'jobs';
 
     protected $fillable = [
-        'name',
-        'email',
-        'active',
-        'scheduled_resignation',
-        'deleted_at'
+        'name'
     ];
 
-    public function job(): BelongsTo
+    public function users(): HasMany
     {
-        return $this->belongsTo(Job::class);
+        return $this->hasMany(User::class);
     }
 }
