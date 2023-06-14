@@ -21,6 +21,7 @@ class User extends Model
 
     protected $fillable = [
         'name',
+        'id_job',
         'email',
         'active',
         'scheduled_resignation',

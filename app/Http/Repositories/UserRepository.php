@@ -28,4 +28,9 @@ class userRepository {
 
         return $users;
     }
+
+    public function create (array $data) {
+        $user = User::create($data);
+        return $user;
+    }
 }
