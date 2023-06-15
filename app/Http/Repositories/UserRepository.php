@@ -33,4 +33,25 @@ class userRepository {
         $user = User::create($data);
         return $user;
     }
+
+    public function show (int $id) {
+        $user =  User::select('users.name', 'users.email', 'users.active', 'users.scheduled_resignation', 'jobs.id as id_job', 'jobs.name as job_name','users.created_at')
+            ->join('jobs', 'jobs.id', 'users.id_job')
+            ->where('users.id', $id)
+            ->where('users.active', 1)
+            ->first();
+            
+        $userFormatted = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'active' => $user->active,
+            'scheduled_resignation' => $user->scheduled_resignation,
+            'job' => [
+                'id' => $user->id_job,
+                'name' => $user->job_name
+            ],
+        ];
+
+        return $userFormatted;
+    }
 }

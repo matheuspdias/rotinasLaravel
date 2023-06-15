@@ -28,6 +28,13 @@ class User extends Model
         'deleted_at'
     ];
 
+    protected $casts = [
+        'active' => 'boolean',
+        'created_at' => 'date',
+        'updated_at' => 'date',
+        'deleted_at' => 'date'
+    ];
+
     public function job(): BelongsTo
     {
         return $this->belongsTo(Job::class);

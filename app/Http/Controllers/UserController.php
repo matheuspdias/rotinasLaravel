@@ -38,4 +38,22 @@ class UserController extends Controller
        return response()->json($user, 201);
 
     }
+
+    public function show (Request $request, int $id): JsonResponse {
+        $request->merge(['id_user' => $id]);
+
+        $validator = Validator::make($request->all(), [
+            'id_user' => 'required|int|exists:users,id'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        $data = $validator->validated();
+
+        $user = $this->userRepository->show($data['id_user']);
+
+        return response()->json($user, 200);
+    }
 }
