@@ -41,7 +41,6 @@ class UserController extends Controller
 
     public function show (Request $request, int $id): JsonResponse {
         $request->merge(['id_user' => $id]);
-
         $validator = Validator::make($request->all(), [
             'id_user' => 'required|int|exists:users,id'
         ]);
@@ -55,5 +54,23 @@ class UserController extends Controller
         $user = $this->userRepository->show($data['id_user']);
 
         return response()->json($user, 200);
+    }
+
+    public function scheduledResignation (Request $request, int $id_user) {
+        $request->merge(['id_user' => $id_user]);
+        $validator = Validator::make($request->all(), [
+            'id_user' => 'required|int|exists:users,id',
+            'date' => 'required|date'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        $data = $validator->validated();
+
+        $scheduledResignation = $this->userRepository->scheduledResignation($data);
+
+        return response()->json($scheduledResignation);
     }
 }

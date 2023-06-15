@@ -54,4 +54,17 @@ class userRepository {
 
         return $userFormatted;
     }
+
+    public function scheduledResignation (array $data) {
+        $user = User::find($data['id_user']); 
+        $user->scheduled_resignation = $data['date'];
+         
+        $user->save();
+
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'scheduled_resignation' => $user->scheduled_resignation
+        ];
+    }
 }
