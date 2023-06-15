@@ -2,6 +2,7 @@
 namespace App\Http\Repositories;
 
 use App\Models\User;
+use Carbon\Carbon;
 
 class userRepository {
 
@@ -66,5 +67,17 @@ class userRepository {
             'name' => $user->name,
             'scheduled_resignation' => $user->scheduled_resignation
         ];
+    }
+
+    public function listScheduledResignation () {
+        $today = Carbon::now()->format('Y-m-d');
+
+        $users = User::select('users.id', 'users.name', 'users.email', 'users.active', 'users.scheduled_resignation', 'jobs.id as id_job', 'jobs.name as job_name')
+                ->join('jobs', 'users.id_job', 'jobs.id')
+                ->where('active', 1)
+                ->where('scheduled_resignation', '>=', $today)
+                ->get();
+       
+        return $users;
     }
 }

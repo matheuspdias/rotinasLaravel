@@ -73,4 +73,10 @@ class UserController extends Controller
 
         return response()->json($scheduledResignation);
     }
+
+    public function listScheduledResignation () {
+        $users = $this->userRepository->listScheduledResignation();
+
+        return new UserResource($users);
+    }
 }
