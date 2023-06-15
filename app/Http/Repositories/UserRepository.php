@@ -80,4 +80,17 @@ class userRepository {
        
         return $users;
     }
+    
+    public function cancelScheduledResignation (int $idUser) {
+        $user = User::find($idUser);
+        $user->scheduled_resignation = null;
+        
+        $user->save();
+
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'scheduled_resignation' => $user->scheduled_resignation
+        ];
+    }
 }
